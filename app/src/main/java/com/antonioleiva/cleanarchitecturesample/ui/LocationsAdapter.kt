@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.antonioleiva.cleanarchitecturesample.R
-import com.antonioleiva.domain.Location
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.view_location_item.*
 import kotlin.properties.Delegates
@@ -29,8 +28,8 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.ViewHolder>() {
         @SuppressLint("SetTextI18n")
         fun bind(location: Location) {
             with(location) {
-                locationCoordinates.text = "${latitude.toPrettifiedString()} | ${longitude.toPrettifiedString()}"
-                locationDate.text = date.toPrettifiedString()
+                locationCoordinates.text = coordinates
+                locationDate.text = date
             }
         }
     }

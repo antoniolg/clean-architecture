@@ -1,6 +1,6 @@
 package com.antonioleiva.cleanarchitecturesample.ui
 
-import com.antonioleiva.domain.Location
+import com.antonioleiva.domain.Location as DomainLocation
 import com.antonioleiva.usecases.GetLocations
 import com.antonioleiva.usecases.RequestNewLocation
 import kotlinx.coroutines.experimental.android.UI
@@ -18,12 +18,12 @@ class MainPresenter(
 
     fun onCreate() = launch(UI) {
         val locations = bg { getLocations() }.await()
-        view?.renderLocations(locations)
+        view?.renderLocations(locations.map(DomainLocation::toPresentationModel))
     }
 
     fun newLocationClicked() = launch(UI) {
-        val locations = bg { requestNewLocation() }
-        view?.renderLocations(locations.await())
+        val locations = bg { requestNewLocation() }.await()
+        view?.renderLocations(locations.map(DomainLocation::toPresentationModel))
     }
 
     fun onDestroy() {
