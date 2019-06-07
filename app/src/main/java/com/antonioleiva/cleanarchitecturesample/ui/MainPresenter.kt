@@ -1,11 +1,12 @@
 package com.antonioleiva.cleanarchitecturesample.ui
 
-import com.antonioleiva.domain.Location as DomainLocation
 import com.antonioleiva.usecases.GetLocations
 import com.antonioleiva.usecases.RequestNewLocation
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import org.jetbrains.anko.coroutines.experimental.bg
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.antonioleiva.domain.Location as DomainLocation
 
 class MainPresenter(
     private var view: View?,
@@ -16,13 +17,13 @@ class MainPresenter(
         fun renderLocations(locations: List<Location>)
     }
 
-    fun onCreate() = launch(UI) {
-        val locations = bg { getLocations() }.await()
+    fun onCreate() = GlobalScope.launch(Dispatchers.Main) {
+        val locations = withContext(Dispatchers.IO) { getLocations() }
         view?.renderLocations(locations.map(DomainLocation::toPresentationModel))
     }
 
-    fun newLocationClicked() = launch(UI) {
-        val locations = bg { requestNewLocation() }.await()
+    fun newLocationClicked() = GlobalScope.launch(Dispatchers.Main) {
+        val locations = withContext(Dispatchers.IO) { requestNewLocation() }
         view?.renderLocations(locations.map(DomainLocation::toPresentationModel))
     }
 
