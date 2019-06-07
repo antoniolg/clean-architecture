@@ -9,24 +9,14 @@ import com.antonioleiva.data.LocationsRepository
 import com.antonioleiva.usecases.GetLocations
 import com.antonioleiva.usecases.RequestNewLocation
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
+import org.koin.android.scope.currentScope
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private val locationsAdapter = LocationsAdapter()
-    private val presenter: MainPresenter
-
-    init {
-        // This would be done by a dependency injector in a complex App
-        //
-        val persistence = InMemoryLocationPersistenceSource()
-        val deviceLocation = FakeLocationSource()
-        val locationsRepository = LocationsRepository(persistence, deviceLocation)
-        presenter = MainPresenter(
-            this,
-            GetLocations(locationsRepository),
-            RequestNewLocation(locationsRepository)
-        )
-    }
+    private val presenter: MainPresenter by currentScope.inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
