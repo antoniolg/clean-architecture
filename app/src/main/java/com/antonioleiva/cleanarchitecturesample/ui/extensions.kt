@@ -1,6 +1,6 @@
 package com.antonioleiva.cleanarchitecturesample.ui
 
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

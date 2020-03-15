@@ -10,6 +10,6 @@ class InMemoryLocationPersistenceSource : LocationPersistenceSource {
     override fun getPersistedLocations(): List<Location> = locations
 
     override fun saveNewLocation(location: Location) {
-        locations += location
+        locations = locations + location
     }
 }
